@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Story Scape</title>
+  
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+<header class="site-header" role="banner">
+    <div class="header-inner">
+      <a href="/" class="logo-link" aria-label="Story Scape home">
+        <img src="/images/logo.png" alt="Story Scape logo" class="logo" />
+      </a>
+
+      <form class="search-form" role="search" action="/search" method="get">
+        <label for="site-search" class="visually-hidden">Search stories</label>
+        <input id="site-search" name="q" type="search" placeholder="Search Reading..." class="search-bar" />
+      </form>
+
+      <nav class="site-nav" role="navigation" aria-label="Primary">
+        <ul class="nav-links">
+          <li><a href="/compose">Compose</a></li>
+          <li><a href="/stats.ejs">Stats</a></li>
+          <li><a href="/notifications">Notifications</a></li>
+          <li><a href="/profile">Profile</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+<main class="main-content">
+

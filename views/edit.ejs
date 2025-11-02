@@ -1,0 +1,62 @@
+ <%- include('partials/header.ejs') %>
+
+
+
+  <header>
+    <h1>Edit Blog Post</h1>
+    <a href="/" class="back-link">← Back to Home</a>
+  </header>
+
+  <main class="edit-container">
+    <form action="/posts/<%= post.id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="edit-form">
+      
+      <!-- Title (readonly) -->
+      <label for="title">Title</label>
+      <input 
+        type="text" 
+        id="title" 
+        name="title" 
+        value="<%= post.title %>" 
+        readonly
+      />
+
+      
+
+
+      <!-- Author (readonly) -->
+      <label for="author">Author</label>
+      <input 
+        type="text" 
+        id="author" 
+        name="author" 
+        value="<%= post.author %>" 
+        readonly
+      />
+
+      <!-- Current Image (if available) -->
+      <% if (post.image) { %>
+        <label>Current Image:</label>
+        <img src="<%= post.image %>" alt="<%= post.title %>" class="edit-preview" />
+      <% } %>
+
+      <!-- New Image Upload -->
+      <label for="image">Change Image (optional):</label>
+      <input type="file" id="image" name="image" />
+
+      <!-- Content -->
+      <label for="content">Content</label>
+      <textarea 
+        id="content" 
+        name="content" 
+        rows="6" 
+        placeholder="Edit your blog content..."
+      ><%= post.content %></textarea>
+
+      <!-- Submit Button -->
+      <button type="submit" class="update-btn">Update Post</button>
+    </form>
+  </main>
+
+ 
+
+<%- include('partials/footer.ejs') %>
