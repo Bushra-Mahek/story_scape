@@ -411,9 +411,10 @@ app.delete('/posts/:id', (req, res) => {
 
 
 
+export default app;
 
 
-
-app.listen(port,()=>{
-  console.log(`server is running on http://localhost:${port}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => console.log(`Server running on port ${port}`));
+}
