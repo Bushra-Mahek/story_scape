@@ -1,0 +1,31 @@
+<%- include('partials/header.ejs') %>
+
+<main class="compose-container">
+  <div class="compose-card login-card">
+    <h1 class="compose-title">Welcome Back</h1>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="form-error"><%= error %></div>
+    <% } %>
+
+    <form action="/login" method="post" class="compose-form">
+      <div class="form-group">
+        <label for="emailOrName">Email or Username</label>
+        <input id="emailOrName" name="emailOrName" type="text" placeholder="you@example.com or your name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" class="publish-btn">Sign in</button>
+
+      <p style="text-align:center;margin-top:0.75rem;color:rgba(255,255,255,0.9)">
+        New here? <a href="/register" style="color:#fff;text-decoration:underline">Create account</a>
+      </p>
+    </form>
+  </div>
+</main>
+
+<%- include('partials/footer.ejs') %>

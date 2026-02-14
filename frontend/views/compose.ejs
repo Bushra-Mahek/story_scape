@@ -1,0 +1,34 @@
+<%- include('partials/header.ejs') %>
+
+<main class="compose-container">
+  <div class="compose-card">
+    <h1 class="compose-title">Create a New Post</h1>
+
+    <form action="/compose" method="post" enctype="multipart/form-data" class="compose-form">
+
+      <div class="form-group">
+        <label for="title">Post Title</label>
+        <input type="text" id="title" name="title" placeholder="Enter a compelling title..." required>
+      </div>
+
+      <div class="form-group">
+        <label for="author">Author Name</label>
+        <input type="text" id="author" name="author" placeholder="Your name..." required>
+      </div>
+
+      <div class="form-group">
+        <label for="image">Upload Image</label>
+        <input type="file" id="image" name="image" accept="image/*">
+      </div>
+
+      <div class="form-group">
+        <label for="content">Post Content</label>
+        <textarea id="content" name="content" rows="10" placeholder="Start writing your story..." required></textarea>
+      </div>
+
+      <button type="submit" class="publish-btn">Publish Post</button>
+    </form>
+  </div>
+</main>
+
+<%- include('partials/footer.ejs') %>
