@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const saltrounds = 7;
+console.log("BACKEND SECRET:", process.env.JWT_SECRET);
 export const register = async (req,res)=>{
     console.log(req.body);
     const {email , password} = req.body;

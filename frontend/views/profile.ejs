@@ -1,3 +1,6 @@
 <%- include('partials/header.ejs') %>
-<a class="btn btn-light btn-lg" href="/logout" role="button">Log Out</a>
+<form action="/logout" method="post">
+    <button type="submit">Log Out</button>
+</form>
+
 <%- include('partials/footer.ejs') %>

@@ -12,6 +12,7 @@ export const postModel = {
     // findAll(){
     //     return posts;
     // },
+    
     async findAll(){
         const posts = await db.query("SELECT * FROM posts");
         return posts.rows;
@@ -47,7 +48,7 @@ export const postModel = {
         if(post.imageUrl){
             imageurl = post.imageUrl;
         }
-        const newPost = await db.query("INSERT INTO posts(title,author,content,date,image) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",[post.title,post.author,post.content,post.date,imageurl,post.user_id]);
+        const newPost = await db.query("INSERT INTO posts(title,author,content,date,image,user_id) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",[post.title,post.author,post.content,post.date,imageurl,post.user_id]);
         return newPost.rows[0];
     },
 

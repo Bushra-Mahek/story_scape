@@ -4,7 +4,7 @@ import express from "express";
 import mongoose from "mongoose";
 import session from "express-session";
 import bcrypt from "bcrypt";
-import dotenv from "dotenv";
+import env from "dotenv";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -13,13 +13,13 @@ import methodOverride from "method-override";
 import axios from "axios";
 import FormData from "form-data";
 import fs from "fs";
-import passport from "passport";
+import jwt from "jsonwebtoken";
 
 //import User from "./models/User.js";
 
 /* ================= CONFIG ================= */
 
-//dotenv.config();
+env.config();
 
 const app = express();
 const port = 3000;
@@ -144,13 +144,47 @@ app.use(methodOverride('_method'));
 //   }
 //]
 
+
+function requireLogin(req,res,next){
+  const token = req.session.token;
+
+  if(!token){
+    return res.redirect("/login");
+  }
+
+  try{
+    console.log("SESSION:", req.session);
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
+    const decoded = jwt.verify(token,process.env.JWT_SECRET);
+    req.user = decoded;
+
+    next();
+  }
+  catch(err){
+    req.session.destroy(()=>{
+      return res.redirect("/login"); //Better to destroy with callback to ensure session is fully cleared before redirect.
+    });
+  }
+};
+
+
+
+
+
 //READ
 // app.get('/',(req,res)=>{
 //   res.render('index',{posts:posts});
 // });
-app.get("/", async (req,res)=>{
+
+
+app.get("/", requireLogin, async (req,res)=>{
   try{
-    const response = await axios.get(`${API_URL}/posts`);
+    const response = await axios.get(`${API_URL}/posts`,{
+      headers: {
+        Authorization: `Bearer ${req.session.token}`,
+      }
+    });
     res.render("index.ejs",{posts : response.data});
   }
   catch(error){
@@ -359,6 +393,16 @@ app.post("/login", async(req,res)=>{
     res.status(401).json({error : "invalid credentials"});
   }
 });
+
+app.post("/logout", async(req,res)=>{
+  req.session.destroy(()=>{
+    res.redirect("/login");
+  });
+});
+
+app.get("/profile", (req,res)=>{
+  res.render("profile.ejs");
+})
 
 
 export default app;

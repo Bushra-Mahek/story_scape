@@ -5,8 +5,9 @@ export const authenticate = (req,res,next)=>{
     if(!authHeader){
         return res.status(401).json({error: "token not found"});
     }
-    const token = authHeader.split("")[1];
+    const token = authHeader.split(" ")[1];
     try{
+    console.log("HEADERS:", req.headers);
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
