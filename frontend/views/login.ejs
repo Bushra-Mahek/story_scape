@@ -1,31 +1,62 @@
 <%- include('partials/header.ejs') %>
 
-<main class="compose-container">
-  <div class="compose-card login-card">
-    <h1 class="compose-title">Welcome Back</h1>
+<div class="login-container">
 
-    <% if (typeof error !== 'undefined' && error) { %>
-      <div class="form-error"><%= error %></div>
-    <% } %>
+    <!-- LEFT SIDE -->
+    <div class="left-login">
+        <div class="login-overlay">
+            
+        </div>
+    </div>
 
-    <form action="/login" method="post" class="compose-form">
-      <div class="form-group">
-        <label for="emailOrName">Email or Username</label>
-        <input id="emailOrName" name="emailOrName" type="text" placeholder="you@example.com or your name" required>
+    <!-- RIGHT SIDE -->
+    <div class="right">
+        <div class="login-box">
+            <h2>Welcome Back to StoryScape!</h2>
+            <p class="subtitle">Sign in your account</p>
+
+            <form action="/login" method="post" >
+                <label>Your Email</label>
+                <input type="email" placeholder="Enter your email" name="email" required>
+
+                <label>Password</label>
+                <div class="password-wrapper">
+                    <input type="password" placeholder="Enter password" name="password" required>
+                </div>
+
+                <div class="options">
+                    <label>
+                        <input type="checkbox"> Remember Me
+                    </label>
+                    <a href="#">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+
+            <!-- <div class="divider">
+                <span>Instant Login</span>
+            </div> -->
+            <div class="signup-space">
+            <p>To register click here</p>
+            <a href="./signup" class="signup-btn">Sign up</a>
+            </div>
+
+            <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <a class="btn btn-block" href="/auth/google" role="button">
+              <i class="fab fa-google"></i>
+              Sign In with Google
+            </a>
+          </div>
+        </div>
       </div>
+        </div>
+    </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password" placeholder="••••••••" required>
-      </div>
+</div>
 
-      <button type="submit" class="publish-btn">Sign in</button>
 
-      <p style="text-align:center;margin-top:0.75rem;color:rgba(255,255,255,0.9)">
-        New here? <a href="/register" style="color:#fff;text-decoration:underline">Create account</a>
-      </p>
-    </form>
-  </div>
-</main>
 
 <%- include('partials/footer.ejs') %>

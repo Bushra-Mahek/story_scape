@@ -13,6 +13,7 @@ import methodOverride from "method-override";
 import axios from "axios";
 import FormData from "form-data";
 import fs from "fs";
+import passport from "passport";
 
 //import User from "./models/User.js";
 
@@ -220,10 +221,11 @@ app.post("/compose", upload.single("image"), async (req,res)=>{
       formData.append("image", fs.createReadStream(req.file.path));
     }
     await axios.post(`${API_URL}/posts`,formData,{
-      headers : formData.getHeaders(),
+      headers : {...formData.getHeaders(), Authorization: `Bearer ${req.session.token}`,}
     });
     res.redirect("/");
   }
+
   catch(err){
     console.error(err.response?.data || err.message);
     res.status(500).send("error creating post");
@@ -320,6 +322,42 @@ app.post("/posts/:id/edit", upload.single("image"), async (req,res)=>{
 app.delete("/posts/:id/delete", async (req,res)=>{
 await axios.delete(`${API_URL}/posts/${req.params.id}`);
 res.redirect("/");
+});
+
+app.get("/login",(req,res)=>{
+  res.render("login.ejs");
+});
+
+app.get("/signup",(req,res)=>{
+  res.render("signup.ejs");
+});
+
+app.post("/signup", async (req,res)=>{
+  try{
+    await axios.post(`${API_URL}/auth/register`,{
+      email : req.body.email,
+      password: req.body.password,
+    });
+    res.redirect("/login");
+  }
+  catch(err){
+    res.status(500).json({error : "error registering"});
+  }
+});
+
+app.post("/login", async(req,res)=>{
+  try{
+    const response = await axios.post(`${API_URL}/auth/login`,{
+      email : req.body.email,
+      password: req.body.password,
+    });
+    const token = response.data.token;
+    req.session.token = token;//storing token in session or cookie
+    res.redirect("/");
+  }
+  catch(err){
+    res.status(401).json({error : "invalid credentials"});
+  }
 });
 
 

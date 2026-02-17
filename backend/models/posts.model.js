@@ -1,16 +1,10 @@
 // posts array contains actual dataset
 //postModel our db is an object that contains  functions
-import pg from "pg";
-import env from "dotenv";
 
+import env from "dotenv";
 env.config();
-const db = new pg.Pool({
-    user : process.env.PG_USER,
-    host : process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
-    port: process.env.PG_PORT,
-    password: process.env.PG_PASSWORD
-});
+import { db } from "../config/db.js";
+
 
 
 
@@ -29,6 +23,11 @@ export const postModel = {
         // return posts.find((post)=> post.id == id);
         const post = await db.query("SELECT * FROM posts WHERE id = $1",[id]);
         return post.rows[0];
+    }, 
+
+    async findByUserId(user_id){
+        const posts = await db.query("SELECT * FROM posts WHERE user_id = $2",[user_id]);
+        return posts.rows;
     },
 
 
@@ -43,11 +42,12 @@ export const postModel = {
         // }
         // posts.push(newPost);
         // return newPost;
+    
         let imageurl = null;
         if(post.imageUrl){
             imageurl = post.imageUrl;
         }
-        const newPost = await db.query("INSERT INTO posts(title,author,content,date,image) VALUES($1,$2,$3,$4,$5) RETURNING *",[post.title,post.author,post.content,post.date,imageurl]);
+        const newPost = await db.query("INSERT INTO posts(title,author,content,date,image) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",[post.title,post.author,post.content,post.date,imageurl,post.user_id]);
         return newPost.rows[0];
     },
 
@@ -86,6 +86,6 @@ export const postModel = {
         return true;
     },
 
-
+    
 
 };

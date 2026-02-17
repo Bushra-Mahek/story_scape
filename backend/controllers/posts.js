@@ -48,10 +48,12 @@ export const createPost = async (req,res)=>{
     const result = await cloudinary.uploader.upload(req.file.path);
     imageUrl = result.secure_url;
     }
+    const userId = req.user.id;
     const post = await postModel.create({
         title : req.body.title,
         author : req.body.author,
         content : req.body.content,
+        user_id : userId,
         imageUrl,
     });
     res.status(201).json(post);
@@ -107,3 +109,4 @@ export const deletePost = async (req,res) =>{
     }
     
 };
+

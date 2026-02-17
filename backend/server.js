@@ -1,10 +1,9 @@
 import express from "express";
 import cors from "cors";
-import postsRoutes from "./routes/posts.routes.js"
+import postsRoutes from "./routes/posts.routes.js";
+import authRoutes from "./routes/authRoutes.js";
 import path from "path"
 import { fileURLToPath } from "url";
-
-
 
 const app = express();
 const port = 4000;
@@ -12,6 +11,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/posts",postsRoutes);
+app.use("/auth", authRoutes);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

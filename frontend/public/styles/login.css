@@ -1,0 +1,171 @@
+/*login page*/
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: #f5f6fa;
+} */
+
+.login-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* LEFT SIDE */
+
+.left-login {
+    flex: 1;
+    background: url('../images/loginPh.png') no-repeat center center/cover;
+    position: relative;
+}
+
+.login-overlay {
+    position: absolute;
+    bottom: 5px;
+    left: 40px;
+    color: darkblue;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* RIGHT SIDE */
+
+.right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+}
+
+.login-box {
+    width: 380px;
+}
+
+.login-box h2 {
+    margin-bottom: 8px;
+    color: rgba(47,34,53s);
+}
+
+.subtitle {
+    color: #777;
+    margin-bottom: 25px;
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: 6px;
+    display: block;
+    color: #333;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #1c2b4a;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.options a {
+    text-decoration: none;
+    color: #1c2b4a;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #2f2235;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background: #6a7593;
+}
+
+/* Divider */
+
+.signup-space {
+    text-align: center;
+    margin: 25px 0;
+    position: relative;
+}
+
+.signup-btn{
+    width: 50%;
+    padding: 12px;
+    text-decoration: none;
+    font-family:Arial, Helvetica, sans-serif;
+    background: #2f2235;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.signup-btn:hover {
+    background: #6a7593;
+}
+/* Social Buttons */
+
+.social-login {
+    display: flex;
+    gap: 10px;
+}
+
+.social-login button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    background: white;
+    transition: 0.3s;
+}
+
+.social-login button:hover {
+    background: #f1f1f1;
+}
+
+/* Responsive */
+
+@media(max-width: 900px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left {
+        height: 250px;
+    }
+
+    .right {
+        height: calc(100vh - 250px);
+    }
+}

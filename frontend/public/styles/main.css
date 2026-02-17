@@ -195,7 +195,7 @@ body {
 .post-image {
   width: 100%;
   height: 260px;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   display: block;
   border: 0;
@@ -245,7 +245,7 @@ button, .edit, .delete {
   height:200px;
   width:100%;
   max-width:500px;
-  object-fit:cover;
+  object-fit:contain;
   border-radius:8px;
 }
 
@@ -278,7 +278,7 @@ button, .edit, .delete {
 ========================= */
 .single-post{ padding: 2rem; max-width: 800px; margin: 0 auto; }
 .post-container { background: var(--surface); border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); }
-.post-image-large { width:100%; height:400px; object-fit:cover; border-radius:12px; margin-bottom:1.25rem; }
+.post-image-large { width:100%; height:400px; object-fit:contain; border-radius:12px; margin-bottom:1.25rem; }
 .back-link { color: var(--accent); text-decoration:none; font-weight:600; }
 .back-link:hover { text-decoration: underline; }
 
@@ -568,6 +568,7 @@ body {
   background: #d9d2f3;
   transform: translateY(-2px);
 }
+
 
 /* Responsive */
 @media (max-width: 768px) {
