@@ -30,7 +30,10 @@
             <div class="bottom">
             <a href="/posts/<%= post.id %>" class="read-more-link">Read More...</a>
             <button class="edit"><a href="/posts/<%= post.id %>/edit" class="edit2" >Edit</a></button>
-            <button class="delete" data-id="<%= post.id %>">Delete</button>
+            <form action="/posts/<%= post.id %>/delete" method="post">
+              <button class="delete" data-id="<%= post.id %>">Delete</button>
+            </form>
+            
             </div>
           </div>
         </div>

@@ -1,5 +1,7 @@
 import { postModel } from  "../models/posts.model.js";
 import cloudinary from "../config/cloudinary.js";
+import { userModel } from "../models/users.model.js";
+import { profile } from "console";
 
 export const getAllPosts = async (req,res)=>{
     try{
@@ -65,9 +67,13 @@ export const createPost = async (req,res)=>{
 };
 
 export const updatePost = async (req,res)=>{
-   
+    console.log(req.user.id);
     try {
-        const existingPost = await postModel.findById(+req.params.id);
+         console.log("REQ PARAM ID:", req.params.id);
+            console.log("REQ USER ID:", req.user.id);
+
+const existingPost = await postModel.findById(+req.params.id);
+console.log("POST FROM DB:", existingPost);;
 
         if (!existingPost) {
             return res.status(404).json({ error: "Post not found" });
@@ -79,17 +85,20 @@ export const updatePost = async (req,res)=>{
             const result = await cloudinary.uploader.upload(req.file.path);
             imageUrl = result.secure_url;
         }
-
+        const userId = req.user.id;
+       
         const updatedPost = await postModel.update(+req.params.id, {
             title: req.body.title,
             content: req.body.content,
-            image: imageUrl   // 👈 always send valid image
+            image: imageUrl,
+            user_id: userId,  // 👈 always send valid image
         });
 
         res.json(updatedPost);
 
     }
     catch(err){
+        console.log(err);
         res.status(500).json({error :"server error"});
     }
 };
@@ -109,5 +118,19 @@ export const deletePost = async (req,res) =>{
         res.status(500).json({error :"server error"});
     }
     
+};
+
+export const getPostsByUser = async (req,res) =>{
+    try{
+        const userId = req.user.id;
+        const result = await postModel.findByUserId(userId);
+        console.log(result);
+        res.json(result);
+    }
+
+    catch(err){
+        console.error(err);
+        res.status(500).json({error : "server error"});
+    }
 };
 

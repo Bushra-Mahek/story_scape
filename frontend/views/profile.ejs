@@ -1,6 +1,83 @@
 <%- include('partials/header.ejs') %>
-<form action="/logout" method="post">
-    <button type="submit">Log Out</button>
-</form>
+
+<div class="profile-container">
+
+  <!-- LEFT SIDEBAR -->
+  <div class="profile-sidebar">
+
+    <div class="profile-card">
+      <div class="profile-image">
+         <% if (user.profile_photo) { %>
+      <img src="<%= user.profile_photo %>">
+    <% } else {%>
+        <img src="../public/images/profilelogo.png">
+        <% } %>
+      </div>
+
+      <div>
+        <a style="text-decoration: none; color:black;font-weight: 400;" href="/profile_edit">Edit Profile✏️</a>
+      </div>
+
+      <h2 style="font-size: small;"><%= user.email %></h2>
+      <p class="user-id">User ID: <%= user.id %></p>
+
+      <div>
+        <p style="cursor: pointer;"><b>username</b><p>
+        <p><%= user.username %></p>
+      </div>
+
+      <div class="bio">
+        <p style="cursor: pointer;"><b>Bio</b></p>
+        <p>
+          Welcome to my personal blog space.  
+          I share thoughts, ideas and projects here.
+          <%= user.bio %>
+        </p>
+      </div>
+    </div>
+
+    <form action="/logout" method="post" class="logout-form">
+      <button type="submit" class="logout-btn">Logout</button>
+    </form>
+
+  </div>
+
+
+  <!-- RIGHT CONTENT -->
+  <div class="profile-posts">
+
+    <h2 class="section-title">My Posts</h2>
+
+    <% if(posts.length === 0) { %>
+      <p class="no-posts">No posts yet.</p>
+    <% } else { %>
+
+      <% posts.forEach(post => { %>
+
+        <div class="post-card">
+
+          <% if(post.image) { %>
+            <img src="<%= post.image %>" class="post-image">
+          <% } %>
+
+          <div class="post-content">
+            <h3><%= post.title %></h3>
+            <p><%= post.content.substring(0,150) %>...</p>
+
+            <div class="post-actions">
+              <a href="/posts/<%= post.id %>">Read</a>
+              <a href="/posts/<%= post.id %>/edit">Edit</a>
+            </div>
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    <% } %>
+
+  </div>
+
+</div>
 
 <%- include('partials/footer.ejs') %>

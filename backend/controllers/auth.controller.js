@@ -8,6 +8,7 @@ console.log("BACKEND SECRET:", process.env.JWT_SECRET);
 export const register = async (req,res)=>{
     console.log(req.body);
     const {email , password} = req.body;
+    const defaultPhoto = "../../frontend/public/images/user-profile-icon.jpg";
     if (!email || !password) {
     return res.status(400).json({ error: "Email and password are required" });
 }
@@ -18,7 +19,7 @@ export const register = async (req,res)=>{
         }
         else{
             const hashedPassword = await bcrypt.hash(password,saltrounds);
-            const result = await userModel.createUser(email, hashedPassword);
+            const result = await userModel.createUser(email, hashedPassword,defaultPhoto);
             return res.status(201).json({message: "user has been registerd successfully"});
         };
     }
@@ -34,6 +35,8 @@ export const login = async (req,res)=>{
     return res.status(400).json({ error: "Email and password are required" });
 }
     try{
+        console.log(email);
+        console.log(password);
         const result = await userModel.findUserByEmail(email);
         if(!result){
             return res.status(404).json("user not found");
@@ -43,6 +46,8 @@ export const login = async (req,res)=>{
         if(!valid){
             return res.status(401).json({error: "invalid credentials"});
         }
+        console.log("Entered password:", password);
+        console.log("Stored hash:", user.password);
         const token = jwt.sign({id:user.id, email: user.email},process.env.JWT_SECRET,{expiresIn : "1d"});
         return res.json({token});
     }

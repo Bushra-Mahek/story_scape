@@ -27,10 +27,11 @@ export const postModel = {
     }, 
 
     async findByUserId(user_id){
-        const posts = await db.query("SELECT * FROM posts WHERE user_id = $2",[user_id]);
+        const posts = await db.query("SELECT * FROM posts WHERE user_id = $1 ORDER BY id DESC",[user_id]);
         return posts.rows;
     },
 
+   
 
     async create(post){
         // const newPost = {
@@ -64,7 +65,7 @@ export const postModel = {
         // post.content = data.content ?? post.content;
         // post.image = data.image ?? post.image;
 
-        const result = await db.query("UPDATE posts SET title= $1, image= $2, content= $3 WHERE id= $4 RETURNING *",[data.title, data.image, data.content, id]);
+        const result = await db.query("UPDATE posts SET title= $1, image= $2, content= $3 WHERE id= $4 AND user_id = $5 RETURNING *",[data.title, data.image, data.content,id,data.user_id]);
         if(result.rowCount === 0){
             return null;
         }

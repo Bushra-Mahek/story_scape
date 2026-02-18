@@ -1,0 +1,64 @@
+<%- include('partials/header.ejs') %>
+
+
+<div class="edit-profile-container">
+
+  <div class="profile-edit-card">
+
+    <h2>Edit Profile</h2>
+
+    <form action="/profile/edit" method="POST" enctype="multipart/form-data">
+
+      <!-- PROFILE IMAGE PREVIEW -->
+      <div class="image-section">
+        <div class="profile-preview">
+          <% if (user.profile_photo) { %>
+            <img src="<%= user.profile_photo %>" id="previewImg">
+          <% } else { %>
+            <img src="/images/profilelogo.png" id="previewImg">
+          <% } %>
+        </div>
+
+        <input type="file" name="profile_photo" accept="image/*">
+      </div>
+
+
+      <!-- USERNAME -->
+      <div class="profile-form-group">
+        <label>Username</label>
+        <input 
+          type="text" 
+          name="username" 
+          value="<%= user.username || '' %>" 
+          maxlength="50"
+        >
+      </div>
+
+
+      <!-- BIO -->
+      <div class="profile-form-group">
+        <label>Bio</label>
+        <textarea 
+          name="bio" 
+          rows="4"
+          maxlength="250"
+        ><%= user.bio || '' %></textarea>
+      </div>
+
+
+      <div class="profile-form-actions">
+        <button type="submit" class="save-btn">Save Changes</button>
+        <a href="/profile" class="cancel-btn">Cancel</a>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+
+
+
+<%- include('partials/footer.ejs') %>

@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import postsRoutes from "./routes/posts.routes.js";
 import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import path from "path"
 import { fileURLToPath } from "url";
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/posts",postsRoutes);
 app.use("/auth", authRoutes);
+app.use("/users",userRoutes);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

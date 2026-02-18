@@ -10,6 +10,7 @@ import {
     createPost,
     updatePost,
     deletePost,
+    getPostsByUser,
 } from "../controllers/posts.js";
 
 
@@ -26,10 +27,12 @@ const router = express.Router();
 // });
 
 router.get("/",getAllPosts);
-router.get("/:id",getPostById);
+router.get("/my-posts", authenticate, getPostsByUser);
 router.get("/:id/edit", getEditPage);
+router.get("/:id",getPostById);
 router.post("/", authenticate, upload.single("image"), createPost);
 router.patch("/:id",authenticate, upload.single("image"), updatePost);
 router.delete("/:id",authenticate,deletePost);
+
 
 export default router;

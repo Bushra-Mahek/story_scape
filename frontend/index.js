@@ -276,14 +276,25 @@ app.post("/compose", upload.single("image"), async (req,res)=>{
 //   res.render('edit',{post:post});
 // });
 
+
 app.get("/posts/:id/edit", async (req,res)=>{
   try {
-    const response = await axios.get(`${API_URL}/posts/${req.params.id}`);
+    const response = await axios.get(
+      `${API_URL}/posts/${req.params.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${req.session.token}`
+        }
+      }
+    );
+
     res.render("edit.ejs", { post : response.data});
   } catch (err) {
+    console.error(err.response?.data || err.message);
     res.status(404).send(`post with id ${req.params.id} not found`);
   }
 });
+
 
 
 //
@@ -305,7 +316,10 @@ app.post("/posts/:id/edit", upload.single("image"), async (req,res)=>{
     }
 
     await axios.patch(`${API_URL}/posts/${req.params.id}`, formData, {
-      headers: formData.getHeaders(),
+      headers:{
+       ...formData.getHeaders(),
+    Authorization: `Bearer ${req.session.token}`
+      }
     });
 
     res.redirect(`/posts/${req.params.id}`);
@@ -353,10 +367,22 @@ app.post("/posts/:id/edit", upload.single("image"), async (req,res)=>{
 //   posts.splice(index, 1); // remove from array
 //   res.redirect('/'); // go back to homepage
 // });
-app.delete("/posts/:id/delete", async (req,res)=>{
-await axios.delete(`${API_URL}/posts/${req.params.id}`);
-res.redirect("/");
+
+app.post("/posts/:id/delete", async (req, res) => {
+  try {
+    await axios.delete(`${API_URL}/posts/${req.params.id}`, {
+      headers: {
+        Authorization: `Bearer ${req.session.token}`
+      }
+    });
+
+    res.redirect("/");
+  } catch (err) {
+    console.error(err.response?.data || err.message);
+    res.status(500).send("Error deleting post");
+  }
 });
+
 
 app.get("/login",(req,res)=>{
   res.render("login.ejs");
@@ -400,9 +426,72 @@ app.post("/logout", async(req,res)=>{
   });
 });
 
-app.get("/profile", (req,res)=>{
-  res.render("profile.ejs");
-})
+app.get("/profile", requireLogin, async (req,res)=>{
+  try{
+    const userResponse = await axios.get(`${API_URL}/users/me`,{
+      headers:{
+        Authorization: `Bearer ${req.session.token}`
+      }
+    });
+    const response = await axios.get(`${API_URL}/posts/my-posts`,{
+      headers:{
+        Authorization: `Bearer ${req.session.token}`
+      }
+    });
+    res.render("profile.ejs",{
+      user: userResponse.data,
+      posts: response.data
+    });
+  }
+  catch(err){
+    res.status(500).send("error loading profile");
+  }
+});
+
+app.get("/profile_edit", requireLogin, async(req,res)=>{
+  
+  try{
+    const response = await axios.get(`${API_URL}/users/me`,{
+      headers:{
+        Authorization: `Bearer ${req.session.token}`
+      }
+    });
+    res.render("profile_edit.ejs",{
+      user : response.data
+    })
+  }
+
+  catch(err){
+    res.status(500).send("error loading profile_edit");
+  }
+});
+
+app.post("/profile/edit", upload.single("profile_photo"), async (req,res) =>{
+  try{
+    const formdata = new FormData();
+    formdata.append("username",req.body.username);
+    formdata.append("bio",req.body.bio);
+    if(req.file){
+      formdata.append("profile_photo", fs.createReadStream(req.file.path));
+    }
+
+    await axios.patch(`${API_URL}/users/profile`, formdata, {
+      headers:{
+       ...formdata.getHeaders(),
+          Authorization: `Bearer ${req.session.token}`
+      }
+    });
+
+      res.redirect("/profile");
+  }
+  
+  catch(err){
+    res.status(401).json({error:"profile edit error"});
+  }
+
+});
+
+
 
 
 export default app;

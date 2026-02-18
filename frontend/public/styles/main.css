@@ -168,6 +168,7 @@ body {
   box-shadow: var(--shadow);
   overflow: hidden;
   margin: 0;
+  color: var(--primary);
 }
 
 .post-card:hover{
@@ -323,12 +324,12 @@ button, .edit, .delete {
 }
 
 .compose-card {
-  background: linear-gradient(135deg, #5A4B81, #8E7DC7);
+  background: #A9ACA9;
   padding: 2rem;
   border-radius: 18px;
   width: 100%;
   box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-  color: white;
+  color: var(--primary);
   animation: fadeIn 0.4s ease-in-out;
 }
 
@@ -404,7 +405,7 @@ button, .edit, .delete {
   max-width: 640px;
   margin: 3rem auto;
   padding: 2rem;
-  background: linear-gradient(135deg,#5a4b81,#8e7dc7);
+  background: #A9ACA9;
 }
 
 .form-error {
@@ -428,7 +429,7 @@ button, .edit, .delete {
   --bg: #eef1ee;
   --card: #ffffff;
   --muted: #6b6b6b;
-  --accent: #5a4ed6;
+  --accent:#2F2235 ;
   --radius: 10px;
   --maxwidth: 1100px;
 }
@@ -458,12 +459,12 @@ body {
 }
 
 .edit-card {
-  background: linear-gradient(135deg, #5A4B81, #8E7DC7);
+  background:#A9ACA9;
   padding: 2rem;
   border-radius: 18px;
   width: 100%;
   box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-  color: white;
+  color:#3F3244;
   animation: fadeIn 0.4s ease-in-out;
 }
 
@@ -557,7 +558,7 @@ body {
   border: none;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #4b3a75;
+  color: #3F3244;
   cursor: pointer;
   width: 100%;
   margin-top: 1rem;
