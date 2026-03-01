@@ -491,6 +491,29 @@ app.post("/profile/edit", upload.single("profile_photo"), async (req,res) =>{
 
 });
 
+app.get("/stats",requireLogin,async(req,res)=>{
+  try{
+  const response = await axios.get(`${API_URL}/stats`,{
+    headers:{
+      Authorization : `Bearer ${req.session.token}`
+    }
+  });
+
+ const summary = response.data.summary;
+    const users = response.data.users;
+    const monthly = response.data.monthly;
+
+    res.render("stats.ejs", {
+      summary,
+      users,
+      monthly
+    });
+}
+catch(err){
+  res.status(500).send("error loading stats page problem in fetching backend server");
+}
+});
+
 
 
 

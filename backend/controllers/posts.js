@@ -1,6 +1,6 @@
 import { postModel } from  "../models/posts.model.js";
 import cloudinary from "../config/cloudinary.js";
-import { userModel } from "../models/users.model.js";
+
 import { profile } from "console";
 
 export const getAllPosts = async (req,res)=>{
