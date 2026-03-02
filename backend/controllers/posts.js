@@ -42,6 +42,15 @@ export const getEditPage = async (req,res)=>{
     }
 };
 
+export const getPostsByUserId = async (req, res) => {
+  try {
+    const posts = await postModel.findByUserId(req.params.id);
+    res.json(posts);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 export const createPost = async (req,res)=>{
     try{
         console.log("body:", req.body);

@@ -16,7 +16,11 @@
       <% posts.forEach(function(post) { %>
         <div class="post-card">
           <div class="post-meta">
-            <p class="post-author"><%= post.author %> </p>
+            <p class="post-author">
+              <a href="/users/<%= post.user_id %>">
+                <%= post.author %> 
+              </a>
+            </p>
             <p class="post-date"><%= post.date %></p>
           </div>
 

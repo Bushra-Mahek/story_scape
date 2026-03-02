@@ -19,6 +19,14 @@ export const userModel = {
     async updateUser(id,username,bio,profile_photo){
         const result = await db.query("UPDATE users SET username = $1,bio = $2,profile_photo = $3 WHERE id = $4 RETURNING *",[username,bio,profile_photo,id]);
         return result.rows[0];
-    }
+    },
+
+    async findById(id) {
+  const result = await db.query(
+    "SELECT id, username, bio, profile_photo FROM users WHERE id = $1",
+    [id]
+  );
+  return result.rows[0];
+}
 
 };

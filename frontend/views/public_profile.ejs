@@ -1,0 +1,63 @@
+<%- include('partials/header.ejs') %>
+
+<div class="public-profile-container">
+
+  <!-- Profile Header -->
+  <div class="public-profile-card">
+
+    <div class="public-profile-image">
+      <% if (user.profile_photo) { %>
+        <img src="<%= user.profile_photo %>">
+      <% } else { %>
+        <img src="/images/profilelogo.png">
+      <% } %>
+    </div>
+
+    <div class="public-profile-info">
+      <h2><%= user.username %></h2>
+
+      <% if (user.bio) { %>
+        <p class="public-bio"><%= user.bio %></p>
+      <% } else { %>
+        <p class="public-bio muted">This user has not added a bio yet.</p>
+      <% } %>
+
+      <p class="public-post-count">
+        <strong><%= posts.length %></strong> Posts
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Posts Section -->
+  <div class="public-posts-section">
+    <h3 class="section-title">Posts by <%= user.username %></h3>
+
+    <% if (posts.length === 0) { %>
+      <p class="no-posts">No posts yet.</p>
+    <% } else { %>
+
+      <% posts.forEach(post => { %>
+
+        <div class="public-post-card">
+
+          <% if (post.image) { %>
+            <img src="<%= post.image %>" class="public-post-image">
+          <% } %>
+
+          <div class="public-post-content">
+            <h4><%= post.title %></h4>
+            <p><%= post.content.substring(0, 150) %>...</p>
+            <a href="/posts/<%= post.id %>" class="read-more-link">Read More</a>
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    <% } %>
+  </div>
+
+</div>
+
+<%- include('partials/footer.ejs') %>

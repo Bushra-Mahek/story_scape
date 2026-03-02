@@ -540,6 +540,37 @@ app.get("/search",requireLogin,async (req,res)=>{
   }
 });
 
+app.get("/users/:id", requireLogin, async (req, res) => {
+  try {
+
+    const userResponse = await axios.get(
+      `${API_URL}/users/${req.params.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${req.session.token}`
+        }
+      }
+    );
+
+    const postsResponse = await axios.get(
+      `${API_URL}/posts/user/${req.params.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${req.session.token}`
+        }
+      }
+    );
+
+    res.render("public_profile.ejs", {
+      user: userResponse.data,
+      posts: postsResponse.data
+    });
+
+  } catch (err) {
+    res.status(404).send("User not found");
+  }
+});
+
 
 
 export default app;

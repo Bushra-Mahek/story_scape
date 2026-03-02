@@ -31,6 +31,8 @@ export const postModel = {
         return posts.rows;
     },
 
+
+
    
 
     async create(post){

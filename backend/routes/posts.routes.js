@@ -7,6 +7,7 @@ import {
     getAllPosts,
     getPostById,
     getEditPage,
+    getPostsByUserId,
     createPost,
     updatePost,
     deletePost,
@@ -26,13 +27,17 @@ const router = express.Router();
 //   dest: path.join("public", "uploads")
 // });
 
-router.get("/",getAllPosts);
+router.get("/",authenticate, getAllPosts);
 router.get("/my-posts", authenticate, getPostsByUser);
 router.get("/:id/edit", getEditPage);
-router.get("/:id",getPostById);
+//imp /usr/:id is before /:id  Otherwise /user/4 will be treated as id = "user".
+router.get("/user/:id", authenticate, getPostsByUserId);
+router.get("/:id",authenticate, getPostById);
+
 router.post("/", authenticate, upload.single("image"), createPost);
 router.patch("/:id",authenticate, upload.single("image"), updatePost);
 router.delete("/:id",authenticate,deletePost);
+
 
 
 export default router;
