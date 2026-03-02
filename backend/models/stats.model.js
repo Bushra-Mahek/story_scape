@@ -16,10 +16,10 @@ export const statsModel = {
     },
 
     async getPostsPerUser(){
-        return db.query("select u.username, count(p.id) as post_count from users as u left join posts as p on p.user_id = u.id group by u.id, u.username order by post_count desc");
+        return await db.query("select u.username, count(p.id) as post_count from users as u left join posts as p on p.user_id = u.id group by u.id, u.username order by post_count desc");
     },
 
     async getPostsPerMonth(){
-        return db.query("select to_char(date_trunc('month', date), 'Mon YYYY') as month, count(*) as post_count from posts group by date_trunc('month', date) order by date_trunc('month', date)");
+        return await db.query("select to_char(date_trunc('month', date), 'Mon YYYY') as month, count(*) as post_count from posts group by date_trunc('month', date) order by date_trunc('month', date)");
     }
 }

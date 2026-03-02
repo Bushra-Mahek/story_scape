@@ -516,6 +516,26 @@ catch(err){
 
 
 
+app.get("/search",requireLogin,async (req,res)=>{
+  try{
+    const keyword = req.query.q;
+    const response = await axios.get(`${API_URL}/search?q=${keyword}`,{
+      headers:{
+        Authorization: `Bearer ${req.session.token}`
+      },
+    });
+
+    res.render("search.ejs",{
+      posts : response.data,
+      keyword
+    });
+  }
+  catch(err){
+    res.status(500).send("error loading search page, problem fetching backend server");
+  }
+});
+
+
 
 export default app;
 

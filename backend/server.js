@@ -4,6 +4,8 @@ import postsRoutes from "./routes/posts.routes.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import statsRoutes from "./routes/statsRoutes.js";
+import searchRoutes from "./routes/searchRoutes.js";
+
 import path from "path"
 import { fileURLToPath } from "url";
 
@@ -16,6 +18,7 @@ app.use("/posts",postsRoutes);
 app.use("/auth", authRoutes);
 app.use("/users",userRoutes);
 app.use("/stats",statsRoutes);
+app.use("/search",searchRoutes);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

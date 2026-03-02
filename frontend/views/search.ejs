@@ -1,0 +1,67 @@
+<%- include('partials/header.ejs') %>
+
+<section class="search-hero">
+  <div class="search-hero-inner">
+    <h2>Search Results</h2>
+    <p>Showing results related to "<strong><%= keyword %></strong>"</p>
+  </div>
+</section>
+
+<section class="search-container">
+
+  <% if(posts.length === 0) { %>
+
+    <div class="search-empty">
+      <h3>No matching posts found</h3>
+      <p>Try a different keyword or refine your search.</p>
+    </div>
+
+  <% } else { %>
+
+    <div class="search-grid">
+
+      <% posts.forEach(post => { %>
+
+        <article class="search-card">
+
+          <% if(post.image) { %>
+            <div class="search-image-wrapper">
+              <img src="<%= post.image %>" alt="Post image">
+            </div>
+          <% } %>
+
+          <div class="search-card-body">
+
+            <div class="search-meta">
+              <span class="search-author"><%= post.author %></span>
+              <span class="search-date">
+                <%= post.date ? new Date(post.date).toDateString() : "" %>
+              </span>
+            </div>
+
+            <h3 class="search-title"><%= post.title %></h3>
+
+            <p class="search-excerpt">
+              <%= post.content.length > 160 
+                    ? post.content.substring(0,160) + "..." 
+                    : post.content %>
+            </p>
+
+            <div class="search-actions">
+              <a href="/posts/<%= post.id %>" class="btn-primary">Read</a>
+              <a href="/posts/<%= post.id %>/edit" class="btn-secondary">Edit</a>
+            </div>
+
+          </div>
+
+        </article>
+
+      <% }) %>
+
+    </div>
+
+  <% } %>
+
+</section>
+
+<%- include('partials/footer.ejs') %>
