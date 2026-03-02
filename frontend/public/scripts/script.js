@@ -21,7 +21,7 @@
         if (!id) return console.warn('delete button missing data-id');
 
         // set form action to correct route (method-override uses _method)
-        form.action = `/posts/${id}?_method=DELETE`;
+        form.action = `/posts/${id}/delete`;
 
         // show modal (remove hidden and add show to animate)
         modal.classList.remove('hidden');

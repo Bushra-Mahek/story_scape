@@ -28,11 +28,14 @@
             <h2 class="post-title"><%= post.title %></h2>
             <p class="post-content"><%= post.content %></p>
             <div class="bottom">
+            
             <a href="/posts/<%= post.id %>" class="read-more-link">Read More...</a>
+            <% if (post.user_id === currentUser.id) { %>
             <button class="edit"><a href="/posts/<%= post.id %>/edit" class="edit2" >Edit</a></button>
             <form action="/posts/<%= post.id %>/delete" method="post">
               <button class="delete" data-id="<%= post.id %>">Delete</button>
             </form>
+            <% } %>
             
             </div>
           </div>

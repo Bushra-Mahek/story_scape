@@ -185,7 +185,7 @@ app.get("/", requireLogin, async (req,res)=>{
         Authorization: `Bearer ${req.session.token}`,
       }
     });
-    res.render("index.ejs",{posts : response.data});
+    res.render("index.ejs",{posts : response.data, currentUser : req.user});
   }
   catch(error){
     res.status(500).send("no posts found");
@@ -200,7 +200,7 @@ app.get("/", requireLogin, async (req,res)=>{
 //   }
 //   res.render('post',{post:post});
 // });
-app.get("/posts/:id", async (req,res)=>{
+app.get("/posts/:id", requireLogin, async (req,res)=>{
   try{
     const response = await axios.get(`${API_URL}/posts/${req.params.id}`);
     res.render("post.ejs",{post :response.data});
@@ -277,7 +277,7 @@ app.post("/compose", upload.single("image"), async (req,res)=>{
 // });
 
 
-app.get("/posts/:id/edit", async (req,res)=>{
+app.get("/posts/:id/edit", requireLogin, async (req,res)=>{
   try {
     const response = await axios.get(
       `${API_URL}/posts/${req.params.id}`,
@@ -287,6 +287,9 @@ app.get("/posts/:id/edit", async (req,res)=>{
         }
       }
     );
+  if (response.data.user_id !== req.user.id) {
+  return res.status(403).send("Unauthorized");
+}
 
     res.render("edit.ejs", { post : response.data});
   } catch (err) {
@@ -368,14 +371,16 @@ app.post("/posts/:id/edit", upload.single("image"), async (req,res)=>{
 //   res.redirect('/'); // go back to homepage
 // });
 
-app.post("/posts/:id/delete", async (req, res) => {
+app.post("/posts/:id/delete", requireLogin, async (req, res) => {
   try {
     await axios.delete(`${API_URL}/posts/${req.params.id}`, {
       headers: {
         Authorization: `Bearer ${req.session.token}`
       }
     });
-
+     if (response.data.user_id !== req.user.id) {
+  return res.status(403).send("Unauthorized");
+}
     res.redirect("/");
   } catch (err) {
     console.error(err.response?.data || err.message);
