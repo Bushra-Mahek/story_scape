@@ -40,8 +40,21 @@
               <button class="delete" data-id="<%= post.id %>">Delete</button>
             </form>
             <% } %>
-            
+            <div class="like-section">
+  <button 
+    class="like-btn <%= post.liked_by_user ? 'liked' : '' %>" 
+    data-id="<%= post.id %>"
+  >
+    <span class="heart">
+      <%= post.liked_by_user ? '❤️' : '🤍' %>
+    </span>
+    <span class="like-count">
+      <%= post.like_count %>
+    </span>
+  </button>
+</div>
             </div>
+
           </div>
         </div>
         <% }) %>

@@ -200,9 +200,13 @@ app.get("/", requireLogin, async (req,res)=>{
 //   }
 //   res.render('post',{post:post});
 // });
-app.get("/posts/:id", requireLogin, async (req,res)=>{
+app.get("/posts/:id", async (req,res)=>{
   try{
-    const response = await axios.get(`${API_URL}/posts/${req.params.id}`);
+    const response = await axios.get(`${API_URL}/posts/${req.params.id}`,{
+      headers:{
+        Authorization: `Bearer ${req.session.token}`,
+      }
+    });
     res.render("post.ejs",{post :response.data});
   }
   catch (err){
@@ -570,6 +574,39 @@ app.get("/users/:id", requireLogin, async (req, res) => {
     res.status(404).send("User not found");
   }
 });
+
+app.post("/posts/:id/like", requireLogin, async (req,res)=>{
+  try{
+    const response = await axios.post(`${API_URL}/posts/${req.params.id}/like`, {},{
+      headers:{
+        Authorization: `Bearer ${req.session.token}`
+      }
+    });
+    res.json(response.data);
+  }
+
+  catch(err){
+    console.log(err);
+    res.status(500).json({error: "like failed"});
+  }
+});
+
+app.delete("/posts/:id/like", requireLogin, async (req,res)=>{
+  try{
+    const response = await axios.delete(`${API_URL}/posts/${req.params.id}/like`, {
+      headers:{
+        Authorization: `Bearer ${req.session.token}`
+      }
+    });
+    res.json(response.data);
+  }
+
+  catch(err){
+    console.log(err);
+    res.status(500).json({error: "unlike failed"});
+  }
+});
+
 
 
 

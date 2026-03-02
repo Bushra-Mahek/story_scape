@@ -5,7 +5,7 @@ import { profile } from "console";
 
 export const getAllPosts = async (req,res)=>{
     try{
-        const result = await postModel.findAll();
+        const result = await postModel.findAll(req.user.id);
         res.json(result);
     }
     catch(err){

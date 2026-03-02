@@ -1,47 +1,36 @@
- // public/scripts/script.js
-(function () {
-  function ready(fn) {
-    if (document.readyState !== 'loading') fn();
-    else document.addEventListener('DOMContentLoaded', fn);
-  }
+// public/scripts/script.js
 
-  ready(() => {
-    const modal = document.getElementById('deleteModal');
-    const form = document.getElementById('deleteForm');
-    const cancelBtn = document.getElementById('cancelDelete');
+document.addEventListener("DOMContentLoaded", () => {
 
-    // If modal or form missing, do nothing (no errors)
-    if (!modal || !form || !cancelBtn) return;
+  /* ================= DELETE MODAL ================= */
 
-    // attach click handlers to every .delete button
+  const modal = document.getElementById('deleteModal');
+  const form = document.getElementById('deleteForm');
+  const cancelBtn = document.getElementById('cancelDelete');
+
+  if (modal && form && cancelBtn) {
+
     document.querySelectorAll('.delete').forEach(button => {
       button.addEventListener('click', (e) => {
-        // read id from data attribute
+        e.preventDefault(); // important
         const id = button.dataset.id;
-        if (!id) return console.warn('delete button missing data-id');
+        if (!id) return;
 
-        // set form action to correct route (method-override uses _method)
         form.action = `/posts/${id}/delete`;
 
-        // show modal (remove hidden and add show to animate)
         modal.classList.remove('hidden');
-        // ensure browser paints before adding show (so animation works)
         requestAnimationFrame(() => modal.classList.add('show'));
 
-        // focus first button for accessibility
-        const confirmBtn = form.querySelector('button[type="submit"]');
-        if (confirmBtn) confirmBtn.focus();
+        form.querySelector('button[type="submit"]')?.focus();
       });
     });
 
-    // Cancel closes modal
     cancelBtn.addEventListener('click', (e) => {
       e.preventDefault();
       modal.classList.remove('show');
       setTimeout(() => modal.classList.add('hidden'), 240);
     });
 
-    // Clicking backdrop (but not modal content) closes modal
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
         modal.classList.remove('show');
@@ -49,12 +38,50 @@
       }
     });
 
-    // Escape key closes modal
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal.classList.contains('show')) {
         modal.classList.remove('show');
         setTimeout(() => modal.classList.add('hidden'), 240);
       }
     });
+  }
+
+  /* ================= LIKE SYSTEM ================= */
+
+  document.querySelectorAll(".like-btn").forEach(button => {
+
+    button.addEventListener("click", async () => {
+
+      if (button.disabled) return; // prevent spam click
+      button.disabled = true;
+
+      const postId = button.dataset.id;
+      const liked = button.classList.contains("liked");
+
+      try {
+
+        const response = await fetch(`/posts/${postId}/like`, {
+          method: liked ? "DELETE" : "POST"
+        });
+
+        if (!response.ok) throw new Error("Like failed");
+
+        const data = await response.json();
+
+        button.classList.toggle("liked", data.liked);
+        button.querySelector(".heart").textContent =
+          data.liked ? "❤️" : "🤍";
+
+        button.querySelector(".like-count").textContent = data.count;
+
+      } catch (err) {
+        console.error(err);
+      } finally {
+        button.disabled = false;
+      }
+
+    });
+
   });
-})();
+
+});

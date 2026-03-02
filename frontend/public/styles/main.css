@@ -583,6 +583,44 @@ body {
 }
 
 
+.like-section {
+  margin-top: 10px;
+}
+
+.like-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--primary);
+  transition: transform 0.15s ease, color 0.2s ease;
+}
+
+.like-btn:hover {
+  transform: scale(1.05);
+}
+
+.like-btn .heart {
+  font-size: 20px;
+  transition: transform 0.2s ease;
+}
+
+.like-btn.liked .heart {
+  color: crimson;
+}
+
+.like-btn.liked {
+  font-weight: 600;
+}
+
+.like-count {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
 /* ---------- Page header area (title + back link) ---------- */
 header {
   max-width: var(--maxwidth);

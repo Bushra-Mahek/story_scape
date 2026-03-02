@@ -13,9 +13,23 @@ export const postModel = {
     //     return posts;
     // },
     
-    async findAll(){
-        const posts = await db.query("SELECT * FROM posts");
-        return posts.rows;
+    async findAll(userId){
+        const result = await db.query(`
+        SELECT 
+            posts.*,
+            COUNT(likes.id) AS like_count,
+            EXISTS (
+                SELECT 1 FROM likes
+                WHERE likes.post_id = posts.id
+                AND likes.user_id = $1
+            ) AS liked_by_user
+        FROM posts
+        LEFT JOIN likes ON likes.post_id = posts.id
+        GROUP BY posts.id
+        ORDER BY posts.id DESC
+    `, [userId]);
+
+    return result.rows;
     },
 
 
