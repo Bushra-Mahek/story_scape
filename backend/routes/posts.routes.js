@@ -10,6 +10,7 @@ import {
     updatePost,
     deletePost,
     getPostsByUser,
+    getAllUnreadPosts
 } from "../controllers/posts.js";
 import { createLike,deleteLike } from "../controllers/likes.js"
 
@@ -28,8 +29,12 @@ const router = express.Router();
 
 router.get("/",authenticate, getAllPosts);
 router.get("/my-posts", authenticate, getPostsByUser);
+router.get("/notification",authenticate,getAllUnreadPosts);
+
+//all these 3 are static routes
 //imp /usr/:id is before /:id  Otherwise /user/4 will be treated as id = "user".
 router.get("/user/:id", authenticate, getPostsByUserId);
+
 
 
 

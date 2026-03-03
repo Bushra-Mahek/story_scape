@@ -1,0 +1,57 @@
+<%- include('partials/header.ejs') %>
+
+<div class="notification-container">
+
+  <div class="notification-header">
+    <h1>Notifications</h1>
+    <p>Unread posts you haven’t explored yet.</p>
+  </div>
+
+  <% if(posts.length === 0) { %>
+
+    <div class="notification-empty">
+      <h3>You're all caught up 🎉</h3>
+      <p>No new posts available.</p>
+    </div>
+
+  <% } else { %>
+
+    <div class="notification-list">
+      <% posts.forEach(post => { %>
+
+        <div class="notification-card">
+          <div class="notification-left">
+            <span class="notification-badge">NEW</span>
+          </div>
+
+          <div class="notification-content">
+            <h3>
+              <a href="/posts/<%= post.id %>">
+                <%= post.title %>
+              </a>
+            </h3>
+
+            <p class="notification-author">
+              by <%= post.author %>
+            </p>
+
+            <p class="notification-date">
+              <%= new Date(post.date).toDateString() %>
+            </p>
+          </div>
+
+          <div class="notification-action">
+            <a href="/posts/<%= post.id %>" class="notification-btn">
+              View →
+            </a>
+          </div>
+        </div>
+
+      <% }) %>
+    </div>
+
+  <% } %>
+
+</div>
+
+<%- include('partials/footer.ejs') %>

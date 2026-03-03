@@ -200,7 +200,7 @@ app.get("/", requireLogin, async (req,res)=>{
 //   }
 //   res.render('post',{post:post});
 // });
-app.get("/posts/:id", async (req,res)=>{
+app.get("/posts/:id", requireLogin, async (req,res)=>{
   try{
     const response = await axios.get(`${API_URL}/posts/${req.params.id}`,{
       headers:{
@@ -209,9 +209,12 @@ app.get("/posts/:id", async (req,res)=>{
     });
     res.render("post.ejs",{post :response.data});
   }
-  catch (err){
-    res.status(404).render("404", {message : `post with id ${req.params.id} not found`});
+    catch (err){
+    console.log("STATUS:", err.response?.status);
+    console.log("DATA:", err.response?.data);
+    res.status(500).send("debug");
   }
+
 });
 
 
@@ -604,6 +607,23 @@ app.delete("/posts/:id/like", requireLogin, async (req,res)=>{
   catch(err){
     console.log(err);
     res.status(500).json({error: "unlike failed"});
+  }
+});
+
+
+app.get("/notification", requireLogin, async (req,res)=>{
+  try{
+    const response = await axios.get(`${API_URL}/posts/notification`,{
+      headers:{
+        Authorization: `Bearer ${req.session.token}`
+      }
+    });
+    res.render("notification.ejs",{posts : response.data});
+  }
+  
+  catch(err){
+    console.log(err);
+    res.status(500).json({error: "error fetching backend api"});
   }
 });
 

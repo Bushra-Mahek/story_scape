@@ -4,6 +4,7 @@
 import env from "dotenv";
 env.config();
 import { db } from "../config/db.js";
+import { getAllUnreadPosts } from "../controllers/posts.js";
 
 
 
@@ -44,6 +45,8 @@ export const postModel = {
         const posts = await db.query("SELECT * FROM posts WHERE user_id = $1 ORDER BY id DESC",[user_id]);
         return posts.rows;
     },
+
+  
 
 
 
@@ -103,6 +106,17 @@ export const postModel = {
         }
         return true;
     },
+
+    async insertInPostViews(pid,uid){
+        const view_post = await db.query("insert into post_views(post_id,user_id) values($1,$2) on conflict(post_id,user_id) do nothing returning *",[pid,uid]);
+        return view_post.rows[0] || null;
+    },
+
+
+    async getAllUnreadPosts(uid){
+        const result = await db.query("select id, title, author, date from posts where not exists(select 1 from post_views where post_views.post_id = posts.id and post_views.user_id = $1) order by date desc",[uid]);
+        return result.rows;
+    }
 
     
 

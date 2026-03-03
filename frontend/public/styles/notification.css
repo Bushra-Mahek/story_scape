@@ -1,0 +1,108 @@
+/* ================= Notification Page ================= */
+
+.notification-container {
+  max-width: var(--max-width);
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.notification-header h1 {
+  color: var(--primary);
+  margin-bottom: 5px;
+}
+
+.notification-header p {
+  color: var(--secondary);
+  margin-bottom: 30px;
+}
+
+/* Empty state */
+
+.notification-empty {
+  background: var(--surface);
+  padding: 40px;
+  border-radius: var(--radius);
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+/* Notification list */
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Card */
+
+.notification-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: 0.3s ease;
+}
+
+.notification-card:hover {
+  transform: translateY(-3px);
+  background: var(--glass);
+}
+
+/* Left badge */
+
+.notification-badge {
+  background: var(--accent);
+  color: white;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+}
+
+/* Content */
+
+.notification-content {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.notification-content h3 {
+  margin: 0;
+}
+
+.notification-content a {
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.notification-content a:hover {
+  color: var(--accent);
+}
+
+.notification-author,
+.notification-date {
+  font-size: 13px;
+  color: var(--secondary);
+  margin-top: 5px;
+}
+
+/* Action Button */
+
+.notification-btn {
+  text-decoration: none;
+  background: var(--accent);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.notification-btn:hover {
+  background: var(--primary);
+}

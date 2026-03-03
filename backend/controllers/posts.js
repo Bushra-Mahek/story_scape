@@ -20,6 +20,9 @@ export const getPostById = async (req,res)=>{
     if(!post){
         return res.status(404).json({error: "post not found"});
     }
+    const uid = req.user.id;
+    const view_post = await postModel.insertInPostViews(+req.params.id,uid);
+    console.log(view_post);
     console.log(post);
     res.json(post);
     }
@@ -151,5 +154,19 @@ export const getPostsByUser = async (req,res) =>{
         console.error(err);
         res.status(500).json({error : "server error"});
     }
+};
+
+export const getAllUnreadPosts = async (req,res) => {
+  try{
+    const userId = req.user.id;
+    const result = await postModel.getAllUnreadPosts(userId);
+    console.log(result);
+    res.json(result);
+  }
+
+  catch(err){
+    console.log(err);
+    res.status(500).json({error : "server error"});
+  }
 };
 
