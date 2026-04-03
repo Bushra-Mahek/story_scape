@@ -10,7 +10,6 @@ import path from "path"
 import { fileURLToPath } from "url";
 
 const app = express();
-const port = 4000;
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -32,7 +31,9 @@ console.log(
 );
 
 
-app.listen(port,()=>{
-    console.log(`server is listening from port ${port}`);
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log("Server running");
 });
 
